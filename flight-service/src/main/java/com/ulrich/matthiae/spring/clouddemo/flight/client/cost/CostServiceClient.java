@@ -1,9 +1,10 @@
 package com.ulrich.matthiae.spring.clouddemo.flight.client.cost;
 
-import feign.Param;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
@@ -12,5 +13,8 @@ import java.time.LocalDate;
 public interface CostServiceClient {
 
     @GetMapping("/cost-service/cost/flight")
-    Cost getFlightCost(@Param("origin") Location origin, @Param("destination") Location destination, @Param("flightDate")LocalDate flightDate);
+    Cost getFlightCost(
+            @RequestParam("origin") Location origin,
+            @RequestParam("destination") Location destination,
+            @RequestParam("flightDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate flightDate);
 }

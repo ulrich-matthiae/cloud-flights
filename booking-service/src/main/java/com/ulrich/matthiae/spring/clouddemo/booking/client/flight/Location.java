@@ -1,4 +1,4 @@
-package com.ulrich.matthiae.spring.clouddemo.flight.client.cost;
+package com.ulrich.matthiae.spring.clouddemo.booking.client.flight;
 
 public enum Location {
     JOHANNESBURG,

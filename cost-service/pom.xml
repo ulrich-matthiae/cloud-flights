@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ulrich.matthiae.spring.clouddemo</groupId>
-    <artifactId>flight-service</artifactId>
+    <artifactId>cost-service</artifactId>
 
     <dependencies>
         <dependency>

@@ -1,5 +1,6 @@
 package com.ulrich.matthiae.spring.clouddemo.booking;
 
+import com.ulrich.matthiae.spring.clouddemo.booking.client.flight.Flight;
 import com.ulrich.matthiae.spring.clouddemo.booking.client.flight.FlightServiceClient;
 import com.ulrich.matthiae.spring.clouddemo.booking.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,11 @@ public class BookingController {
 
     @RequestMapping(method = POST, value = "/bookings")
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
+        Flight flight = flightServiceClient.getFlightById(booking.getFlightId());
+
+        booking.setTotalCost(flight.getPrice());
         Booking createdBooking = bookingRepository.save(booking);
-        return ResponseEntity.created(URI.create("/workouts/" + createdBooking.getId())).build();
+
+        return ResponseEntity.created(URI.create("/bookings/" + createdBooking.getId())).build();
     }
 }

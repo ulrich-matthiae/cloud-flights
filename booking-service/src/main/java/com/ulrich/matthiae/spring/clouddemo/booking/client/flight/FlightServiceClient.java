@@ -4,14 +4,14 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @FeignClient(name = "zuul-server")
 @RibbonClient(name = "flight-service")
 public interface FlightServiceClient {
 
-    @GetMapping("/flight-service/flights/")
-    List<Flight> getAvailableFlights(@Param("flightDate")LocalDate flightDate);
+    @GetMapping("/flight-service/flights/{id}")
+    Flight getFlightById(@PathVariable("id") Integer id);
 }
