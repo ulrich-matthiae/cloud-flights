@@ -4,6 +4,8 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ulrich.matthiae.spring.clouddemo.cost.models.Cost;
 import com.ulrich.matthiae.spring.clouddemo.cost.models.Location;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +18,18 @@ import java.time.LocalDate;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
+@RefreshScope
 @RestController
 @RequestMapping(value = "/cost")
 public class CostController {
 
-    private static final Long DAILY_PRICE_INCREASE = 10L;
     private static final Long LARGE_AIRPORT_FEE = 200L;
     private static final Long MULTIPLIER_DAYS_BOUNDARY = 90L;
     private static final BigDecimal PRICE_FLOOR = BigDecimal.valueOf(650);
     private static final String DEFAULT_CURRENCY = "ZAR";
+
+    @Value("${dailyPriceIncrease}")
+    private Long dailyPriceIncrease;
 
     private final Environment environment;
 
@@ -44,7 +49,7 @@ public class CostController {
         Integer localServerPort = Integer.parseInt(environment.getProperty("local.server.port"));
 
         if ((DAYS.between(now, flightDate) < MULTIPLIER_DAYS_BOUNDARY)) {
-            currentCost = PRICE_FLOOR.add(BigDecimal.valueOf((MULTIPLIER_DAYS_BOUNDARY - DAYS.between(now, flightDate)) * DAILY_PRICE_INCREASE));
+            currentCost = PRICE_FLOOR.add(BigDecimal.valueOf((MULTIPLIER_DAYS_BOUNDARY - DAYS.between(now, flightDate)) * dailyPriceIncrease));
         }
         if (origin.equals(Location.JOHANNESBURG) || destination.equals(Location.JOHANNESBURG)) {
             currentCost = currentCost.add(BigDecimal.valueOf(LARGE_AIRPORT_FEE));
@@ -56,7 +61,7 @@ public class CostController {
     private Cost fetchDefaultCost(Location origin,
                                   Location destination,
                                   LocalDate flightDate) {
-        BigDecimal priceCeiling = PRICE_FLOOR.add(BigDecimal.valueOf(MULTIPLIER_DAYS_BOUNDARY * DAILY_PRICE_INCREASE));
+        BigDecimal priceCeiling = PRICE_FLOOR.add(BigDecimal.valueOf(MULTIPLIER_DAYS_BOUNDARY * dailyPriceIncrease));
         return new Cost(priceCeiling, DEFAULT_CURRENCY, 0);
     }
 }
