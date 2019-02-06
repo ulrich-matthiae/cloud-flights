@@ -10,6 +10,9 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class Flight {
+
+    private boolean success;
+
     @Id
     private Integer id;
 
