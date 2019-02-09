@@ -12,3 +12,18 @@ To get the soluition running, the different microservices need to be fired up in
 
 ## Usefull URLs
 * Eureka dashboard: http://localhost:8761/
+
+## Creating and querying bookings
+**POST** http://localhost:8201/flights/
+```json
+{
+	"id":"1",
+	"flightDate":"2019-01-01",
+	"origin":"JOHANNESBURG",
+	"destination":"CAPE_TOWN",
+	"seatsAvailable":"20"
+}
+```
+
+**GET** http://localhost:8201/flights/1
+
