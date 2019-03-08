@@ -11,8 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Flight {
 
-    private boolean success;
-
     @Id
     private Integer id;
 

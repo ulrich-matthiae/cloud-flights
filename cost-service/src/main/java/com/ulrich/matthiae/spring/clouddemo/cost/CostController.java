@@ -39,7 +39,6 @@ public class CostController {
     }
 
     @RequestMapping(value = "/flight", method = RequestMethod.GET)
-    @HystrixCommand(fallbackMethod = "fetchDefaultCost")
     public Cost getFlightCost(
             @RequestParam Location origin,
             @RequestParam Location destination,
@@ -56,12 +55,5 @@ public class CostController {
         }
 
         return new Cost(currentCost, DEFAULT_CURRENCY, localServerPort);
-    }
-
-    private Cost fetchDefaultCost(Location origin,
-                                  Location destination,
-                                  LocalDate flightDate) {
-        BigDecimal priceCeiling = PRICE_FLOOR.add(BigDecimal.valueOf(MULTIPLIER_DAYS_BOUNDARY * dailyPriceIncrease));
-        return new Cost(priceCeiling, DEFAULT_CURRENCY, 0);
     }
 }

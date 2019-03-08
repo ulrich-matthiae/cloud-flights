@@ -37,9 +37,9 @@ public class BookingController {
         return ResponseEntity.created(URI.create("/bookings/" + createdBooking.getId())).build();
     }
 
-    @GetMapping(value = "bookings/flight/{id}")
-    public Flight getFlight(@PathVariable("id") Integer flightId){
-        return flightServiceClient.getFlightById(flightId);
+    @GetMapping(value = "/bookings/flight/{id}")
+    public ResponseEntity<?> getFlight(@PathVariable("id") Integer flightId){
+        return ResponseEntity.ok(flightServiceClient.getFlightById(flightId));
     }
 
 }
