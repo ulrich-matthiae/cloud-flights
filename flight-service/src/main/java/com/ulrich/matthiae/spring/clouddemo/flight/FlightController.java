@@ -1,7 +1,7 @@
 package com.ulrich.matthiae.spring.clouddemo.flight;
 
 import com.ulrich.matthiae.spring.clouddemo.flight.client.cost.Cost;
-import com.ulrich.matthiae.spring.clouddemo.flight.client.cost.CostServiceClient;
+import com.ulrich.matthiae.spring.clouddemo.flight.client.cost.CostService;
 import com.ulrich.matthiae.spring.clouddemo.flight.model.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -21,26 +21,25 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RepositoryRestController
 public class FlightController {
     private final FlightRepository flightRepository;
-    private final CostServiceClient costServiceClient;
+    private final CostService costService;
 
     @Autowired
-    public FlightController(FlightRepository flightRepository, CostServiceClient costServiceClient) {
+    public FlightController(FlightRepository flightRepository, CostService costService) {
         this.flightRepository = flightRepository;
-        this.costServiceClient = costServiceClient;
+        this.costService = costService;
     }
 
     @RequestMapping(method = GET, value = "/flights")
     public ResponseEntity<?> getFlightsByDate(@RequestParam(value = "flightDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate flightDate) {
         List<Flight> flightsByDate = flightRepository.findAllByFlightDate(flightDate);
         for (Flight flight : flightsByDate) {
-            Cost flightCost = costServiceClient.getFlightCost(
+            Cost flightCost = costService.getFlightCost(
                     flight.getOrigin().getCostLocation(),
                     flight.getDestination().getCostLocation(),
                     flightDate);
             flight.setPrice(flightCost.getPrice());
             flight.setCostServicePort(flightCost.getLocalServerPort());
         }
-
 
         return new ResponseEntity<List>(flightsByDate, HttpStatus.OK);
     }
@@ -51,7 +50,7 @@ public class FlightController {
 
         if (flightOptional.isPresent()) {
             Flight flight = flightOptional.get();
-            Cost flightCost = costServiceClient.getFlightCost(flight.getOrigin().getCostLocation(), flight.getDestination().getCostLocation(), flight.getFlightDate());
+            Cost flightCost = costService.getFlightCost(flight.getOrigin().getCostLocation(), flight.getDestination().getCostLocation(), flight.getFlightDate());
 
             flight.setPrice(flightCost.getPrice());
             flight.setCostServicePort(flightCost.getLocalServerPort());

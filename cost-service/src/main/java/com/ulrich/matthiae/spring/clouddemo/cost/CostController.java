@@ -1,6 +1,5 @@
 package com.ulrich.matthiae.spring.clouddemo.cost;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ulrich.matthiae.spring.clouddemo.cost.models.Cost;
 import com.ulrich.matthiae.spring.clouddemo.cost.models.Location;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +39,7 @@ public class CostController {
     }
 
     @RequestMapping(value = "/flight", method = RequestMethod.GET)
-    public Cost getFlightCost(
+    public ResponseEntity<Cost> getFlightCost(
             @RequestParam Location origin,
             @RequestParam Location destination,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate flightDate) {
@@ -54,6 +54,6 @@ public class CostController {
             currentCost = currentCost.add(BigDecimal.valueOf(LARGE_AIRPORT_FEE));
         }
 
-        return new Cost(currentCost, DEFAULT_CURRENCY, localServerPort);
+        return ResponseEntity.ok(new Cost(currentCost, DEFAULT_CURRENCY, localServerPort));
     }
 }
