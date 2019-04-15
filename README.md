@@ -12,6 +12,7 @@ To get the soluition running, the different microservices need to be fired up in
 
 ## Usefull URLs
 * Eureka dashboard: http://localhost:8761/
+* Hystrix dashboard: http://localhost:8101/hystrix
 
 ## Creating and querying bookings
 **POST** http://localhost:8201/flights/
