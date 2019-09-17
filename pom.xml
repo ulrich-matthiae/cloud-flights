@@ -13,6 +13,7 @@
 		<module>eureka-server</module>
 		<module>zuul-server</module>
 		<module>config-server</module>
+		<module>turbine-server</module>
 	</modules>
     <packaging>pom</packaging>
 
@@ -22,7 +23,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.6.RELEASE</version>
+		<version>2.1.8.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -30,7 +31,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
+		<spring-cloud.version>Greenwich.SR2</spring-cloud.version>
 		<de.flapdoodle.embed.mongo.version>2.1.1</de.flapdoodle.embed.mongo.version>
 	</properties>
 

@@ -29,7 +29,6 @@ public class CostService {
         return costServiceClient.getFlightCost(origin, destination, flightDate);
     }
 
-    @SuppressWarnings("unused")
     public Cost fallbackAction(Location origin, Location destination, LocalDate flightDate){
         LOG.error("fallback action cannot fetch cost for from {} to {} date {}", origin, destination, flightDate);
         System.err.println("Fetch Flights Error handler");
