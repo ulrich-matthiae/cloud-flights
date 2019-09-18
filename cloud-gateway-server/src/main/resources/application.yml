@@ -1,0 +1,57 @@
+server:
+  port: 8799
+spring:
+  application:
+    name: cloud-gateway-server
+  cloud:
+    gateway:
+
+      #### Example on how to auto expose all services found on eureka
+#      discovery:
+#        locator:
+#          enabled: true
+#          lower-case-service-id: true
+
+      routes:
+      #### Example on how to blacklist paths e.g. actuator management endpoints
+      - id: blocked-actuator-route
+        uri: no://op
+        predicates:
+        - Path=/**/actuator/health/**
+
+      #### Example on how to route all traffic to the booking service without having a context-root. E.g http://localhost:8799/bookings/1
+      - id: booking-service-route
+        uri: lb://booking-service/
+        predicates:
+        - Path=/bookings/**
+
+      #### Example on how to route all traffic to the flight service where the proxy has a context root, but the application does not
+      - id: flight-service-rewrite-route
+        uri: lb://flight-service/
+        predicates:
+        - Path=/flight-service/**
+        filters:
+        - RewritePath=/flight-service/(?<segment>.*), /$\{segment}
+
+      #### Example on how to use hystrix to set finer grained timeouts
+      - id: cost-service-hystrix-timeout
+        uri: lb://cost-service/
+        predicates:
+        - Path=/cost/**
+        filters:
+        - Hystrix=appTimeOut
+
+      #### Looks like these will work well for global connection and response timeouts. Otherwise a global hystrix filter can be added to the routes
+      httpclient:
+        connect-timeout: 20000
+        response-timeout: 20s
+
+      #### Enables forwarding of headers
+      forwarded:
+        enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+hystrix.command.appTimeOut.execution.isolation.thread.timeoutInMilliseconds: 2100

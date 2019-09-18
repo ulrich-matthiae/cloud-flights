@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +43,7 @@ public class CostController {
     public ResponseEntity<Cost> getFlightCost(
             @RequestParam Location origin,
             @RequestParam Location destination,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate flightDate) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate flightDate) throws InterruptedException {
         LocalDate now = LocalDate.now();
         BigDecimal currentCost = PRICE_FLOOR;
         Integer localServerPort = Integer.parseInt(environment.getProperty("local.server.port"));
@@ -54,6 +55,12 @@ public class CostController {
             currentCost = currentCost.add(BigDecimal.valueOf(LARGE_AIRPORT_FEE));
         }
 
+        Thread.sleep(2000);
         return ResponseEntity.ok(new Cost(currentCost, DEFAULT_CURRENCY, localServerPort));
+    }
+
+    @RequestMapping(value = "/fallback", method = RequestMethod.GET)
+    public ResponseEntity<Cost> fallback() {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
     }
 }
