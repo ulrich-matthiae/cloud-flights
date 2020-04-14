@@ -1,3 +1,4 @@
+# Create a new flight option
 POST http://localhost:8201/flights/
 Content-Type: application/json
 
@@ -11,7 +12,17 @@ Content-Type: application/json
 }
 
 ###
+# Fetch the new flight option with dynamic pricing and demonstrate client-side load balancing
 GET http://localhost:8201/flights/1
+Accept: application/json
+
+
+###
+
+# Demo dynamic pricing property on cost-service
+# https://github.com/ulrich-matthiae/cloud-flights-config/blob/master/application.yml
+# Instance 2 is running on port 9001
+POST http://localhost:8301/actuator/refresh
 Accept: application/json
 
 
