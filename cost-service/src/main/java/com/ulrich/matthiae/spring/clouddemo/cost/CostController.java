@@ -54,7 +54,7 @@ public class CostController {
         if (origin.equals(Location.JOHANNESBURG) || destination.equals(Location.JOHANNESBURG)) {
             currentCost = currentCost.add(BigDecimal.valueOf(LARGE_AIRPORT_FEE));
         }
-        // Add this in to demonstrate ribbon & hystrix timout failure - by default hystrix will tim out after 1s
+        // Add this in to demonstrate ribbon & hystrix timout failure - by default hystrix will time out after 1s
         // Thread.sleep(2000);
         return ResponseEntity.ok(new Cost(currentCost, DEFAULT_CURRENCY, localServerPort));
     }
