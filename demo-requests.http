@@ -35,3 +35,6 @@ GET http://localhost:8201/flights/1
 Accept: application/json
 
 ###
+
+# TODO zuul calls
+# show single endpoint into cluster
