@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Random;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -54,8 +55,9 @@ public class CostController {
         if (origin.equals(Location.JOHANNESBURG) || destination.equals(Location.JOHANNESBURG)) {
             currentCost = currentCost.add(BigDecimal.valueOf(LARGE_AIRPORT_FEE));
         }
-        // Add this in to demonstrate ribbon & hystrix timout failure - by default hystrix will time out after 1s
-        // Thread.sleep(2000);
+        // Demonstrate ribbon & hystrix timout failure - by default hystrix will time out after 1s
+        Thread.sleep(getLatency());
+
         return ResponseEntity.ok(new Cost(currentCost, DEFAULT_CURRENCY, localServerPort));
     }
 
@@ -63,4 +65,12 @@ public class CostController {
     public ResponseEntity<Cost> fallback() {
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
     }
+
+    private int getLatency() {
+        Random r = new Random();
+        int low = 0;
+        int high = 100;
+        return r.nextInt(high - low) + low;
+    }
+
 }

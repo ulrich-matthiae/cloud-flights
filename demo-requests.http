@@ -23,6 +23,7 @@ Accept: application/json
 # Demo dynamic pricing property on cost-service
 # https://github.com/ulrich-matthiae/cloud-flights-config/blob/master/application.yml
 # Instance 2 is running on port 9001
+# Spring Cloud Bus solves syncronisation problem (or be cheap and create your own)
 POST http://localhost:8301/actuator/refresh
 Accept: application/json
 
