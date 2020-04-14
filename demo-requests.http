@@ -1,4 +1,4 @@
-# Create a new flight option
+# Create a new flight
 POST http://localhost:8201/flights/
 Content-Type: application/json
 
@@ -12,11 +12,11 @@ Content-Type: application/json
 }
 
 ###
-# Fetch the new flight option with dynamic pricing and demonstrate client-side load balancing
-# Show dynamic addition and removal of instances http://localhost:8761/
+
+# Fetch the new flight with and demonstrate client-side load balancing
+# Show dynamic addition and removal of instances on eureka http://localhost:8761/
 GET http://localhost:8201/flights/1
 Accept: application/json
-
 
 ###
 
@@ -28,6 +28,7 @@ POST http://localhost:8301/actuator/refresh
 Accept: application/json
 
 ###
+
 # Demo hysterix timout on one instance com.ulrich.matthiae.spring.clouddemo.cost.CostController:58
 # Show turbine dashboard http://localhost:9090/hystrix/monitor?stream=http://localhost:9090/turbine.stream
 GET http://localhost:8201/flights/1
