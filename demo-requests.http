@@ -1,0 +1,18 @@
+POST http://localhost:8201/flights/
+Content-Type: application/json
+
+{
+  "id": "1",
+  "flightDate": "2019-01-01",
+  "origin": "JOHANNESBURG",
+  "destination": "CAPE_TOWN",
+  "seatsAvailable": "20",
+  "price": 599.99
+}
+
+###
+GET http://localhost:8201/flights/1
+Accept: application/json
+
+
+###

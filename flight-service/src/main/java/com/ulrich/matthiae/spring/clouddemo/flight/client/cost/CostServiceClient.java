@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
-@FeignClient(name = "zuul-server")
+@FeignClient(name = "cost-service")
 @RibbonClient(name = "cost-service")
 public interface CostServiceClient {
 
-    @GetMapping("/cost-service/cost/flight")
+    @GetMapping("/cost/flight")
     Cost getFlightCost(
             @RequestParam("origin") Location origin,
             @RequestParam("destination") Location destination,

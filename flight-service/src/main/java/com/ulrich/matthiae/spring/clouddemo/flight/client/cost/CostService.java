@@ -19,11 +19,11 @@ public class CostService {
         this.costServiceClient = costServiceClient;
     }
 
-    @HystrixCommand(fallbackMethod = "fallbackAction", commandProperties = {
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "200"),
-            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "10"),
-    })
+//    @HystrixCommand(fallbackMethod = "fallbackAction", commandProperties = {
+//            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
+//            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "200"),
+//            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "10"),
+//    })
     public Cost getFlightCost(Location origin, Location destination, LocalDate flightDate) {
         System.err.println("Fetch Flights");
         return costServiceClient.getFlightCost(origin, destination, flightDate);

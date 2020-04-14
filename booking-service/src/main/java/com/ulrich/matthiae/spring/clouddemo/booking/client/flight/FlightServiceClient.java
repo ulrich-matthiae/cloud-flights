@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "zuul-server")
+@FeignClient(name = "flight-service")
 @RibbonClient(name = "flight-service")
 @Repository
 public interface FlightServiceClient {
