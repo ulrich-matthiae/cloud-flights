@@ -36,5 +36,8 @@ Accept: application/json
 
 ###
 
-# TODO zuul calls
-# show single endpoint into cluster
+# Zuul - access services on one endpoint by name
+GET http://localhost:8765/flight-service/flights/1
+Accept: application/json
+
+###
