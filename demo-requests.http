@@ -15,6 +15,7 @@ Content-Type: application/json
 
 # Fetch the new flight and demonstrate client-side load balancing
 # Show dynamic addition and removal of instances on eureka http://localhost:8761/
+# Cost service instance 2 is running on port 9001
 GET http://localhost:8201/flights/1
 Accept: application/json
 
@@ -22,7 +23,6 @@ Accept: application/json
 
 # Demo dynamic pricing property on cost-service
 # https://github.com/ulrich-matthiae/cloud-flights-config/blob/master/application.yml
-# Instance 2 is running on port 9001
 # Spring Cloud Bus solves syncronisation problem (or be cheap and create your own)
 POST http://localhost:8301/actuator/refresh
 Accept: application/json
