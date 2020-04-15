@@ -1,0 +1,43 @@
+# Create a new flight
+POST http://localhost:8201/flights/
+Content-Type: application/json
+
+{
+  "id": "1",
+  "flightDate": "2019-01-01",
+  "origin": "JOHANNESBURG",
+  "destination": "CAPE_TOWN",
+  "seatsAvailable": "20",
+  "price": 599.99
+}
+
+###
+
+# Fetch the new flight and demonstrate client-side load balancing
+# Show dynamic addition and removal of instances on eureka http://localhost:8761/
+# Cost service instance 2 is running on port 9001
+GET http://localhost:8201/flights/1
+Accept: application/json
+
+###
+
+# Demo dynamic pricing property on cost-service
+# https://github.com/ulrich-matthiae/cloud-flights-config/blob/master/application.yml
+# Spring Cloud Bus solves syncronisation problem (or be cheap and create your own)
+POST http://localhost:8301/actuator/refresh
+Accept: application/json
+
+###
+
+# Demo hysterix timout on one instance com.ulrich.matthiae.spring.clouddemo.cost.CostController:58
+# Show turbine dashboard http://localhost:9090/hystrix/monitor?stream=http://localhost:9090/turbine.stream
+GET http://localhost:8201/flights/1
+Accept: application/json
+
+###
+
+# Zuul - access services on one endpoint by name
+GET http://localhost:8765/flight-service/flights/1
+Accept: application/json
+
+###
