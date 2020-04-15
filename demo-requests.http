@@ -13,7 +13,7 @@ Content-Type: application/json
 
 ###
 
-# Fetch the new flight with and demonstrate client-side load balancing
+# Fetch the new flight and demonstrate client-side load balancing
 # Show dynamic addition and removal of instances on eureka http://localhost:8761/
 GET http://localhost:8201/flights/1
 Accept: application/json
