@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Flight {
 
-    @Id
     private Integer id;
 
     private LocalDate flightDate;
