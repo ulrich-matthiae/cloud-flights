@@ -3,6 +3,9 @@ package com.ulrich.matthiae.spring.clouddemo.flight;
 import com.ulrich.matthiae.spring.clouddemo.flight.client.cost.Cost;
 import com.ulrich.matthiae.spring.clouddemo.flight.client.cost.CostService;
 import com.ulrich.matthiae.spring.clouddemo.flight.model.Flight;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class FlightController {
     private final FlightRepository flightRepository;
     private final CostService costService;
+    private final Logger logger = LoggerFactory.getLogger(FlightController.class);
 
     @Autowired
     public FlightController(FlightRepository flightRepository, CostService costService) {
@@ -30,6 +34,7 @@ public class FlightController {
     }
 
     @RequestMapping(method = GET, value = "/flights")
+    @CircuitBreaker(name = "flightService", fallbackMethod = "fallback")
     public ResponseEntity<?> getFlightsByDate(@RequestParam(value = "flightDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate flightDate) {
         List<Flight> flightsByDate = flightRepository.findAllByFlightDate(flightDate);
         for (Flight flight : flightsByDate) {
@@ -42,6 +47,12 @@ public class FlightController {
         }
 
         return new ResponseEntity<List>(flightsByDate, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> fallback(LocalDate flightDate, Exception e){
+        String errorString = "Error fetching flight cost for flight "+flightDate;
+        logger.error(errorString, e);
+        return new ResponseEntity<>(errorString,HttpStatus.BAD_GATEWAY);
     }
 
     @RequestMapping(method = GET, value = "/flights/{id}")

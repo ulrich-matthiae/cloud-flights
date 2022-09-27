@@ -1,0 +1,44 @@
+spring:
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:9000
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: *
+  endpoint:
+    health:
+      show-details: always
+
+
+resilience4j.circuitbreaker:
+configs:
+  default:
+    registerHealthIndicator: true
+    # Failure rate threshold percentage
+    failureRateThreshold: 50
+    # Minimum number of call attempts before rate threshold percentage is checked.
+    ringBufferSizeInClosedState: 10
+    # How long to wait until switching to half open.
+    waitDurationInOpenState: 5s
+    # Number of successful requests before moving back to closed from half open.
+    ringBufferSizeInHalfOpenState: 5
+    # Exceptions that do not count towards opening the circuit.
+    minimumNumberOfCalls: 5
+    eventConsumerBufferSize: 10
+    automaticTransitionFormOpenToHalfOpenEnabled: true
+    permittedNumberOfCallsInHalfOpenState: 3
+    slidingWindowSize: 10
+    slidingWindowType: COUNT_BASED
+    ignoreExceptions:
+      # Ignore 4xx exceptions.
+      - org.springframework.web.client.HttpClientErrorException
+    instances:
+      flightService:
+        baseConfig: default

@@ -1,6 +1,5 @@
 package com.ulrich.matthiae.spring.clouddemo.booking;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ulrich.matthiae.spring.clouddemo.booking.client.flight.Flight;
 import com.ulrich.matthiae.spring.clouddemo.booking.client.flight.FlightServiceClient;
 import com.ulrich.matthiae.spring.clouddemo.booking.model.Booking;
@@ -25,7 +24,6 @@ public class BookingController {
         this.flightServiceClient = flightServiceClient;
     }
 
-    @HystrixCommand
     @RequestMapping(method = POST, value = "/bookings")
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
         Flight flight = flightServiceClient.getFlightById(booking.getFlightId());
