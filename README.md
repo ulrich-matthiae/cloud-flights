@@ -9,13 +9,15 @@ An example app using spring cloud and mongo-db to show how one could start to bu
 The following required services need to be started up
 
 1. Zipkin:
-    * Using Docker: `docker run -d -p 9411:9411 openzipkin/zipkin`
-    * Directly:
-      `curl -sSL https://zipkin.io/quickstart.sh | bash -s
-      java -jar zipkin.jar`
+   * Using Docker: `docker run -p 9411:9411 openzipkin/zipkin`
+   * Directly:
+     `curl -sSL https://zipkin.io/quickstart.sh | bash -s
+     java -jar zipkin.jar`
 2. RabbitMQ
-    * `docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.10-management`
-    * Download and install from https://www.rabbitmq.com/download.html
+   * `docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.10-management`
+   * Download and install from https://www.rabbitmq.com/download.html
+3. Prometheus
+   * In the prometheus directory: `docker run -p 9090:9090 -v <full-path>\cloud-flights\prometheus\prometheus.yml:/etc/prometheus/prometheus.yml  prom/prometheus`
 
 ### Microservices
 
