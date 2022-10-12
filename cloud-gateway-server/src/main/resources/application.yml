@@ -1,31 +1,36 @@
 server:
   port: 8799
+
 spring:
+  config:
+    import: configserver:http://localhost:9000
   application:
     name: cloud-gateway-server
   cloud:
-    config:
-      enabled: false
     gateway:
 
       #### Example on how to auto expose all services found on eureka
-#      discovery:
-#        locator:
-#          enabled: true
-#          lower-case-service-id: true
+      #      discovery:
+      #        locator:
+      #          enabled: true
+      #          lower-case-service-id: true
 
       routes:
-      #### Example on how to blacklist paths e.g. actuator management endpoints
-#      - id: blocked-actuator-route
-#        uri: no://op
-#        predicates:
-#        - Path=/**/actuator/health/**
+        #### Example on how to blacklist paths e.g. actuator management endpoints
+        #      - id: blocked-actuator-route
+        #        uri: no://op
+        #        predicates:
+        #        - Path=/**/actuator/health/**
 
-      #### Example on how to route all traffic to the booking service without having a context-root. E.g http://localhost:8799/bookings/1
-      - id: booking-service-route
-        uri: lb://booking-service/
-        predicates:
-        - Path=/bookings/**
+        #### Example on how to route all traffic to the booking service without having a context-root. E.g http://localhost:8799/bookings/1
+        - id: booking-service-route
+          uri: lb://booking-service/
+          predicates:
+            - Path=/bookings/**
+        - id: flight-service-route
+          uri: lb://flight-service/
+          predicates:
+            - Path=/flights/**
 
       #### Example on how to route all traffic to the flight service where the proxy has a context root, but the application does not
 #      - id: flight-service-rewrite-route

@@ -10,11 +10,11 @@
 		<module>flight-service</module>
 		<module>booking-service</module>
 		<module>cost-service</module>
+		<module>functional-cost-service</module>
 		<module>eureka-server</module>
-<!--		<module>zuul-server</module>-->
 		<module>config-server</module>
-<!--		<module>turbine-server</module>-->
 		<module>cloud-gateway-server</module>
+		<module>notification-service</module>
 	</modules>
     <packaging>pom</packaging>
 
@@ -34,6 +34,7 @@
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2021.0.4</spring-cloud.version>
 		<de.flapdoodle.embed.mongo.version>2.1.1</de.flapdoodle.embed.mongo.version>
+		<springdoc-openapi-ui.version>1.6.11</springdoc-openapi-ui.version>
 	</properties>
 
 	<dependencyManagement>
@@ -45,34 +46,25 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>1.18.4</version>
-			</dependency>
 
 			<!--Mongo DB -->
-<!--			<dependency>-->
-<!--				<groupId>de.flapdoodle.embed</groupId>-->
-<!--				<artifactId>de.flapdoodle.embed.mongo</artifactId>-->
-<!--				<version>${de.flapdoodle.embed.mongo.version}</version>-->
-<!--			</dependency>-->
 			<dependency>
 				<groupId>cz.jirutka.spring</groupId>
 				<artifactId>embedmongo-spring</artifactId>
 				<version>RELEASE</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-ui</artifactId>
+				<version>${springdoc-openapi-ui.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-data-rest</artifactId>
+				<version>${springdoc-openapi-ui.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<dependencies>
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<plugins>

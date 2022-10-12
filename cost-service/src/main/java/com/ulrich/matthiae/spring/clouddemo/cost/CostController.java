@@ -9,10 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -40,7 +37,7 @@ public class CostController {
         this.environment = environment;
     }
 
-    @RequestMapping(value = "/flight", method = RequestMethod.GET)
+    @GetMapping(value = "/flight")
     public ResponseEntity<Cost> getFlightCost(
             @RequestParam Location origin,
             @RequestParam Location destination,

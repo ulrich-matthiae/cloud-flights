@@ -1,22 +1,66 @@
 # Create a new flight
-POST http://localhost:8201/flights/
+POST http://localhost:8799/flights/
 Content-Type: application/json
+x-user-id: Renette
 
 {
-  "id": "1",
-  "flightDate": "2019-01-01",
-  "origin": "JOHANNESBURG",
-  "destination": "CAPE_TOWN",
+  "id": "3",
+  "flightDate": "2022-10-10",
+  "origin": "CAPE_TOWN",
+  "destination": "JOHANNESBURG",
   "seatsAvailable": "20",
   "price": 599.99
 }
+
+###
+# curl -X 'POST'
+#  'http://localhost:8101/bookings'
+#  -H 'accept: application/hal+json'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "id": 1,
+#  "idNumber": "123456789",
+#  "passportNumber": "string",
+#  "name": "Renette",
+#  "surname": "Ros",
+#  "gender": "FEMALE",
+#  "flightId": 2,
+#  "totalCost": 100
+#}'
+POST http://localhost:8799/bookings
+accept: application/hal+json
+Content-Type: application/json
+x-user-id: Renette
+
+{
+  "id": 4,
+  "idNumber": "123456789",
+  "name": "Renette",
+  "surname": "Ros",
+  "gender": "FEMALE",
+  "flightId": 3,
+  "totalCost": 100
+}
+
+###
+# Get all bookings
+# curl -X 'GET'
+#  'http://localhost:8101/bookings?page=0&size=20'
+#  -H 'accept: application/hal+json'
+GET http://localhost:8799/bookings?page=0&size=20
+accept: application/hal+json
+x-user-id: Renette
+
+###
+
+
 
 ###
 
 # Fetch the new flight and demonstrate client-side load balancing
 # Show dynamic addition and removal of instances on eureka http://localhost:8761/
 # Cost service instance 2 is running on port 9001
-GET http://localhost:8201/flights/1
+GET http://localhost:8799/flights/1
 Accept: application/json
 
 ###
@@ -41,3 +85,33 @@ GET http://localhost:8765/flight-service/flights/1
 Accept: application/json
 
 ###
+
+POST http://localhost:8799/actuator/busrefresh
+
+###
+
+# curl -X 'POST'
+#  'http://localhost:8302/cost/flight'
+#  -H 'accept: application/json'
+#  -H 'Content-Type: application/json'
+#  -d '{
+#  "origin": "JOHANNESBURG",
+#  "destination": "JOHANNESBURG",
+#  "flightDate": "2022-10-05"
+#}'
+POST http://localhost:8302/cost/flight
+accept: application/json
+Content-Type: application/json
+
+{
+  "origin": "JOHANNESBURG",
+  "destination": "CAPE_TOWN",
+  "flightDate": "2022-10-05"
+}
+
+###
+
+
+
+###
+
